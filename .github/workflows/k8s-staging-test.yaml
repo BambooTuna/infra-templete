@@ -25,9 +25,13 @@ jobs:
           gcloud config set project ${TF_VAR_GOOGLE_PROJECT_ID}
           gcloud services enable container.googleapis.com
           gcloud services enable containerregistry.googleapis.com
-      - name: Terraform apply
+      - name: Terraform init
         working-directory: ./terraform/k8s
         run: |
           terraform init
           sh import.sh
+
+      - name: Terraform apply
+        working-directory: ./terraform/k8s
+        run: |
           sh apply.sh
