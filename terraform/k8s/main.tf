@@ -8,10 +8,6 @@ variable "GOOGLE_COMPUTE_ZONE" {
 variable "GOOGLE_CREDENTIALS_JSON_PATH" {
   default = "account.json"
 }
-variable "SSH_PUB_KEY" {}
-variable "SSH_PORT" {
-  default = "22"
-}
 
 provider "google" {
   credentials = file("${var.GOOGLE_CREDENTIALS_JSON_PATH}")
@@ -26,7 +22,7 @@ resource "google_compute_network" "default" {
 
 resource "google_compute_subnetwork" "default" {
   name                     = "${var.GOOGLE_PROJECT_ID}-subnetwork"
-  ip_cidr_range            = "10.128.0.0/24"
+  ip_cidr_range            = "192.168.10.0/24"
   network                  = "${google_compute_network.default.self_link}"
   region                   = "${var.GOOGLE_COMPUTE_REGION}"
   private_ip_google_access = true
@@ -34,7 +30,7 @@ resource "google_compute_subnetwork" "default" {
 
 resource "google_container_cluster" "default" {
   name               = "${var.GOOGLE_PROJECT_ID}-cluster"
-  zone               = "${var.GOOGLE_COMPUTE_ZONE}"
+  location           = "${var.GOOGLE_COMPUTE_ZONE}"
   initial_node_count = 2
   network            = "${google_compute_network.default.name}"
   subnetwork         = "${google_compute_subnetwork.default.name}"
