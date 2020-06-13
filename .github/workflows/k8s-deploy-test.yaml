@@ -32,11 +32,10 @@ jobs:
           gcloud --quiet container clusters get-credentials ${GOOGLE_PROJECT_ID}-cluster
 
       # kubectl create serviceaccount --namespace kube-system tiller
+      # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:default
       - name: Setup Helm
         run: |
-          kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:default
           helm init --service-account default
-          sleep 20s
 
       - name: Deploy
         working-directory: ./deploy/k8s
