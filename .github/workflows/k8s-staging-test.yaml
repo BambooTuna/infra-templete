@@ -1,0 +1,31 @@
+name: k8s-staging
+
+on:
+  push:
+    branches: [ feature/k8s-staging ]
+
+jobs:
+  apply-environment:
+    name: Terraform k8s
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_GOOGLE_SERVICE_KEY: ${{ secrets.GOOGLE_SERVICE_KEY }}
+      TF_VAR_GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+      TF_VAR_GOOGLE_COMPUTE_REGION: ${{ secrets.GOOGLE_COMPUTE_REGION }} # "asia-northeast1"
+      TF_VAR_GOOGLE_COMPUTE_ZONE: ${{ secrets.GOOGLE_COMPUTE_ZONE }} # "asia-northeast1-a"
+      TF_VAR_GOOGLE_CREDENTIALS_JSON_PATH: ./account.json
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup Gcloud
+        working-directory: ./terraform/k8s
+        run: |
+          echo ${TF_VAR_GOOGLE_SERVICE_KEY} | base64 -d > ${TF_VAR_GOOGLE_CREDENTIALS_JSON_PATH}
+          echo 'github-actions@${TF_VAR_GOOGLE_PROJECT_ID}.iam.gserviceaccount.com' | gcloud auth activate-service-account --key-file ${TF_VAR_GOOGLE_CREDENTIALS_JSON_PATH}
+          gcloud services enable container.googleapis.com
+      - name: Terraform apply
+        working-directory: ./terraform/k8s
+        run: |
+          terraform init
+          sh import.sh
+          sh apply.sh
