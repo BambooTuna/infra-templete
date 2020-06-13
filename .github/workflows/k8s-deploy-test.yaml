@@ -30,7 +30,6 @@ jobs:
           gcloud --quiet config set compute/region ${GOOGLE_COMPUTE_REGION}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud --quiet container clusters get-credentials ${GOOGLE_PROJECT_ID}-cluster
-          gcloud services enable container.clusterRoleBindings.create
 
       - name: Setup Helm
         run: |
