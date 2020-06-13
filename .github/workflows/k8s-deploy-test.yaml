@@ -31,9 +31,9 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud --quiet container clusters get-credentials ${GOOGLE_PROJECT_ID}-cluster
 
+      # kubectl create serviceaccount --namespace kube-system tiller
       - name: Setup Helm
         run: |
-#          kubectl create serviceaccount --namespace kube-system tiller
           kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:default
           helm init --service-account default
           sleep 20s
