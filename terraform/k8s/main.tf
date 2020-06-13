@@ -8,10 +8,6 @@ variable "GOOGLE_COMPUTE_ZONE" {
 variable "GOOGLE_CREDENTIALS_JSON_PATH" {
   default = "account.json"
 }
-variable "SSH_PUB_KEY" {}
-variable "SSH_PORT" {
-  default = "22"
-}
 
 provider "google" {
   credentials = file("${var.GOOGLE_CREDENTIALS_JSON_PATH}")
