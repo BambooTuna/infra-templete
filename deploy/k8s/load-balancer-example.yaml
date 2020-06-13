@@ -18,9 +18,9 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: example-server
-  name: hello-world
+  name: example-server
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: example-server
@@ -31,6 +31,6 @@ spec:
     spec:
       containers:
         - image: gcr.io/google-samples/node-hello:1.0
-          name: hello-world
+          name: example-server
           ports:
             - containerPort: 8080
