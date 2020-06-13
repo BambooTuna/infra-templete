@@ -32,7 +32,7 @@ resource "google_container_cluster" "default" {
   name               = "${var.GOOGLE_PROJECT_ID}-cluster"
   location           = "${var.GOOGLE_COMPUTE_ZONE}"
   initial_node_count = 2
-  network            = "${google_compute_subnetwork.default.name}"
+  network            = "${google_compute_network.default.name}"
   subnetwork         = "${google_compute_subnetwork.default.name}"
 
   enable_legacy_abac = true
