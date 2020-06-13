@@ -24,6 +24,7 @@ jobs:
           echo 'github-actions@${TF_VAR_GOOGLE_PROJECT_ID}.iam.gserviceaccount.com' | gcloud auth activate-service-account --key-file ${TF_VAR_GOOGLE_CREDENTIALS_JSON_PATH}
           gcloud config set project ${TF_VAR_GOOGLE_PROJECT_ID}
           gcloud services enable container.googleapis.com
+          gcloud services enable containerregistry.googleapis.com
       - name: Terraform apply
         working-directory: ./terraform/k8s
         run: |
