@@ -21,7 +21,7 @@ jobs:
       - name: Setup Helm
         run: |
           curl https://storage.googleapis.com/kubernetes-helm/helm-v2.12.3-linux-amd64.tar.gz | tar zx linux-amd64/helm
-          mv linux-amd64/helm /usr/local/bin/helm; rm -rf linux-amd64
+          sudo mv linux-amd64/helm /usr/local/bin/helm; rm -rf linux-amd64
       - name: Setup Gcloud
         run: |
           echo ${GOOGLE_SERVICE_KEY} | base64 -d > ${GOOGLE_CREDENTIALS_JSON_PATH}
