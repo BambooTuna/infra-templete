@@ -17,10 +17,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: example-server
+    name: example-server
   name: example-server
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: example-server
