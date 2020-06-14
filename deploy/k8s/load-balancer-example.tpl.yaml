@@ -35,5 +35,13 @@ spec:
           env:
             - name: MYSQL_HOST
               value: <% MYSQL_HOST %>
+            - name: MYSQL_PORT
+              value: 3306
+            - name: MYSQL_USER
+              value: root
+            - name: MYSQL_PASS
+              value: root
+            - name: MYSQL_DATABASE
+              value: first
           ports:
             - containerPort: 2112

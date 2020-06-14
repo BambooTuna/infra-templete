@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"github.com/BambooTuna/go-server-lib/config"
+	"github.com/jinzhu/gorm"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
@@ -8,6 +11,9 @@ import (
 	"time"
 
 	"github.com/BambooTuna/go-server-lib/metrics"
+
+	// mysql driver
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 const namespace = "k8s_infra"
@@ -29,6 +35,17 @@ func main() {
 			}
 		}
 	}()
+
+	connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
+		config.GetEnvString("MYSQL_USER", "user"),
+		config.GetEnvString("MYSQL_PASS", "pass"),
+		config.GetEnvString("MYSQL_HOST", "127.0.0.1"),
+		config.GetEnvString("MYSQL_PORT", "3306"),
+		config.GetEnvString("MYSQL_DATABASE", "table"),
+	)
+	db, _ := gorm.Open("mysql", connect)
+	db.Close()
+
 
 	// monitoring metrics, process
 	go func() {
