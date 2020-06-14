@@ -30,6 +30,7 @@ jobs:
           gcloud --quiet config set compute/region ${GOOGLE_COMPUTE_REGION}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud --quiet container clusters get-credentials ${GOOGLE_PROJECT_ID}-cluster
+          gcloud auth configure-docker
 
       # kubectl create serviceaccount --namespace kube-system tiller
       # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:default
