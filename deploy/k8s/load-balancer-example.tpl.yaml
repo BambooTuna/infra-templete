@@ -9,7 +9,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 8080
+      targetPort: 2112
   selector:
     app: example-server
 ---
@@ -18,9 +18,9 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: example-server
-  name: hello-world
+  name: example-server
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: example-server
@@ -30,7 +30,7 @@ spec:
         app.kubernetes.io/name: example-server
     spec:
       containers:
-        - image: gcr.io/google-samples/node-hello:1.0
-          name: hello-world
+        - image: <% API_SERVER_IMAGE_NAME %>
+          name: example-server
           ports:
-            - containerPort: 8080
+            - containerPort: 2112
