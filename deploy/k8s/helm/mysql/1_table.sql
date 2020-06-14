@@ -1,8 +1,8 @@
-DROP SCHEMA IF EXISTS test;
+DROP SCHEMA IF EXISTS infra-test;
 
-CREATE SCHEMA test;
+CREATE SCHEMA infra-test;
 
-USE test;
+USE infra-test;
 
 CREATE TABLE `test_db` (
   `id` varchar(255) NOT NULL PRIMARY KEY
