@@ -36,8 +36,15 @@ jobs:
       - name: Setup Helm
         run: |
           helm init --service-account default
-
+      - name: Build
+        working-directory: ./apiServer
+        run: |
+          export IMAGE_NAME=api-server
+          export IMAGE_TAG=latest
+          export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
+          docker build . -f ${GCR_IMAGE_NAME}:${IMAGE_TAG}
+          docker push ${GCR_IMAGE_NAME}
       - name: Deploy
         working-directory: ./deploy/k8s
         run: |
-          sh ./deploy.sh
+          sh ./deploy.sh ${GCR_IMAGE_NAME}:${IMAGE_TAG}
