@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: load-balancer
+  name: api-server-load-balancer
   labels:
     app: api-server
 spec:
@@ -13,6 +13,21 @@ spec:
   selector:
     app: api-server
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-server-load-balancer
+  labels:
+    app: grafana-service
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+  selector:
+    app: grafana-service
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,7 +35,7 @@ metadata:
     name: api-server
   name: api-server
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api-server
