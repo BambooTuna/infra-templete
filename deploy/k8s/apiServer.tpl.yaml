@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: load-balancer
   labels:
-    app: example-server
+    app: api-server
 spec:
   type: LoadBalancer
   ports:
@@ -11,32 +11,32 @@ spec:
       port: 8080
       targetPort: 18080
   selector:
-    app: example-server
+    app: api-server
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    name: example-server
-  name: example-server
+    name: api-server
+  name: api-server
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: example-server
+      app: api-server
   template:
     metadata:
       labels:
-        app: example-server
+        app: api-server
     spec:
       containers:
         - image: <% API_SERVER_IMAGE_NAME %>
-          name: example-server
+          name: api-server
           env:
             - name: PORT
               value: "18080"
             - name: MYSQL_HOST
-              value: <% MYSQL_HOST %>
+              value: <% MYSQL_NAMESPACE %>
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_USER
