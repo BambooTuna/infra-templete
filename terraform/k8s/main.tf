@@ -31,7 +31,7 @@ resource "google_compute_subnetwork" "default" {
 resource "google_container_cluster" "default" {
   name               = "${var.GOOGLE_PROJECT_ID}-cluster"
   location           = "${var.GOOGLE_COMPUTE_ZONE}"
-  initial_node_count = 2
+  initial_node_count = 1
   network            = "${google_compute_network.default.name}"
   subnetwork         = "${google_compute_subnetwork.default.name}"
 
@@ -55,7 +55,7 @@ resource "google_container_cluster" "default" {
       "https://www.googleapis.com/auth/monitoring",
     ]
     preemptible  = true
-    machine_type = "n1-standard-1"
+    machine_type = "n1-standard-4"
     disk_size_gb = 10
     disk_type    = "pd-standard"
   }
