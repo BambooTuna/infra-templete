@@ -33,6 +33,10 @@ spec:
       protocol: "TCP"
       port: 8080
       targetPort: 18080
+    - name: "metrics-port"
+      protocol: "TCP"
+      port: 2112
+      targetPort: 2112
   selector:
     app: api-server
 ---
