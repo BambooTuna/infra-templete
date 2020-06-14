@@ -34,16 +34,16 @@ spec:
           name: example-server
           env:
             - name: PORT
-              value: 18080
+              value: "18080"
             - name: MYSQL_HOST
-              value: <% MYSQL_HOST %>
+              value: "<% MYSQL_HOST %>"
             - name: MYSQL_PORT
-              value: 3306
+              value: "3306"
             - name: MYSQL_USER
-              value: root
+              value: "root"
             - name: MYSQL_PASS
-              value: root
+              value: "root"
             - name: MYSQL_DATABASE
-              value: first
+              value: "first"
           ports:
             - containerPort: 18080
