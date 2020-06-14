@@ -41,11 +41,14 @@ jobs:
         working-directory: ./apiServer
         run: |
           export IMAGE_NAME=api-server
-          export IMAGE_TAG=latest
+          export IMAGE_TAG=${GITHUB_SHA}
           export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
           docker build . -t ${GCR_IMAGE_NAME}:${IMAGE_TAG}
           docker push ${GCR_IMAGE_NAME}
       - name: Deploy
         working-directory: ./deploy/k8s
         run: |
+          export IMAGE_NAME=api-server
+          export IMAGE_TAG=${GITHUB_SHA}
+          export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
           sh ./deploy.sh ${GCR_IMAGE_NAME}:${IMAGE_TAG}
