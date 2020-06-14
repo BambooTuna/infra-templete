@@ -13,6 +13,8 @@ else
   kubectl apply -f apiServer.yaml
 
   helm upgrade --install ${MYSQL_NAMESPACE} -f ./helm/mysql/values.yaml stable/mysql
+
+  helm delete --purge ${PROMETHEUS_NAMESPACE}
   helm upgrade --install ${PROMETHEUS_NAMESPACE} -f ./helm/prometheus/values.yaml stable/prometheus
   helm upgrade --install ${GRAFANA_NAMESPACE} -f ./helm/grafana/values.yaml stable/grafana
 
