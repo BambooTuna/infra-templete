@@ -8,25 +8,15 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
+      name: spi-server
       port: 8080
       targetPort: 18080
+    - protocol: TCP
+      name: grafana
+      port: 3000
+      targetPort: 3000
   selector:
     app: api-server
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: grafana-server-load-balancer
-  labels:
-    app: grafana-service
-spec:
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 80
-  selector:
-    app: grafana-service
 ---
 apiVersion: apps/v1
 kind: Deployment
