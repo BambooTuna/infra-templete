@@ -12,6 +12,10 @@ spec:
       port: 8080
       targetPort: 18080
     - protocol: TCP
+      name: prometheus
+      port: 9090
+      targetPort: 9090
+    - protocol: TCP
       name: grafana
       port: 3000
       targetPort: 3000

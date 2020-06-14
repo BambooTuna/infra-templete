@@ -24,7 +24,7 @@ const namespace = "k8s_infra"
 
 func main() {
 	wg := new(sync.WaitGroup)
-	wg.Add(3)
+	wg.Add(4)
 
 	m := metrics.CreateMetrics(namespace)
 	go func() {
@@ -55,6 +55,19 @@ func main() {
 		r := gin.Default()
 		r.GET("/", func(ctx *gin.Context) { ctx.Status(200) })
 		r.GET("/health", func(ctx *gin.Context) { ctx.Status(200) })
+		_ = r.Run(fmt.Sprintf(":%s", serverPort))
+		wg.Done()
+	}()
+
+	go func() {
+		serverPort := "9090"
+		r := gin.Default()
+		r.Use(
+			reverseProxy(
+				"/",
+				&url.URL{Scheme: "http", Host: config.GetEnvString("PROMETHEUS_NAMESPACE", "prometheus-service-server")+":80"},
+			),
+		)
 		_ = r.Run(fmt.Sprintf(":%s", serverPort))
 		wg.Done()
 	}()
