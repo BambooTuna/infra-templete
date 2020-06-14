@@ -32,5 +32,8 @@ spec:
       containers:
         - image: <% API_SERVER_IMAGE_NAME %>
           name: example-server
+          env:
+            - name: MYSQL_HOST
+              value: <% MYSQL_HOST %>
           ports:
             - containerPort: 2112
