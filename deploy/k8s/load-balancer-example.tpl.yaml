@@ -36,7 +36,7 @@ spec:
             - name: PORT
               value: "18080"
             - name: MYSQL_HOST
-              value: "<% MYSQL_HOST %>"
+              value: <% MYSQL_HOST %>
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_USER
