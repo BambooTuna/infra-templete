@@ -264,12 +264,9 @@ admin:
 
 ## Extra environment variables that will be pass onto deployment pods
 env:
-  - name: GF_AUTH_ANONYMOUS_ENABLED
-    value: true
-  - name: GF_AUTH_ANONYMOUS_ORG_NAME
-    value: "View Org."
-  - name: GF_AUTH_ANONYMOUS_ORG_ROLE
-    value: "Viewer"
+  GF_AUTH_ANONYMOUS_ENABLED: true
+  GF_AUTH_ANONYMOUS_ORG_NAME: "View Org."
+  GF_AUTH_ANONYMOUS_ORG_ROLE: "Viewer"
 
 ## "valueFrom" environment variable references that will be added to deployment pods
 ## ref: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#envvarsource-v1-core
