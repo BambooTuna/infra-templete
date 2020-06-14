@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/BambooTuna/go-server-lib/config"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -20,7 +21,7 @@ const namespace = "k8s_infra"
 
 func main() {
 	wg := new(sync.WaitGroup)
-	wg.Add(3)
+	wg.Add(2)
 
 	m := metrics.CreateMetrics(namespace)
 	go func() {
@@ -46,6 +47,14 @@ func main() {
 	db, _ := gorm.Open("mysql", connect)
 	db.Close()
 
+	go func() {
+		serverPort := config.GetEnvString("PORT", "18080")
+		r := gin.Default()
+		r.GET("/", func(ctx *gin.Context) { ctx.Status(200) })
+		r.GET("/health", func(ctx *gin.Context) { ctx.Status(200) })
+		_ = r.Run(fmt.Sprintf(":%s", serverPort))
+		wg.Done()
+	}()
 
 	// monitoring metrics, process
 	go func() {

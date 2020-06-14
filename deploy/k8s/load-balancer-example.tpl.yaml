@@ -9,7 +9,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 2112
+      targetPort: 18080
   selector:
     app: example-server
 ---
@@ -33,6 +33,8 @@ spec:
         - image: <% API_SERVER_IMAGE_NAME %>
           name: example-server
           env:
+            - name: PORT
+              value: 18080
             - name: MYSQL_HOST
               value: <% MYSQL_HOST %>
             - name: MYSQL_PORT
@@ -44,4 +46,4 @@ spec:
             - name: MYSQL_DATABASE
               value: first
           ports:
-            - containerPort: 2112
+            - containerPort: 18080
