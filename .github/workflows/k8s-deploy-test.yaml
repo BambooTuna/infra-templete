@@ -42,7 +42,7 @@ jobs:
           export IMAGE_NAME=api-server
           export IMAGE_TAG=latest
           export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
-          docker build . -f ${GCR_IMAGE_NAME}:${IMAGE_TAG}
+          docker build . -t ${GCR_IMAGE_NAME}:${IMAGE_TAG}
           docker push ${GCR_IMAGE_NAME}
       - name: Deploy
         working-directory: ./deploy/k8s
