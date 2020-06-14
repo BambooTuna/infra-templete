@@ -8,6 +8,9 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
+	"strings"
 	"sync"
 	"time"
 
@@ -52,6 +55,12 @@ func main() {
 		r := gin.Default()
 		r.GET("/", func(ctx *gin.Context) { ctx.Status(200) })
 		r.GET("/health", func(ctx *gin.Context) { ctx.Status(200) })
+		r.Use(
+			reverseProxy(
+				"/grafana",
+				&url.URL{Scheme: "http", Host: config.GetEnvString("GRAFANA_NAMESPACE", "grafana-service")+":80"},
+			),
+		)
 		_ = r.Run(fmt.Sprintf(":%s", serverPort))
 		wg.Done()
 	}()
@@ -65,4 +74,16 @@ func main() {
 		wg.Done()
 	}()
 	wg.Wait()
+}
+
+func reverseProxy(urlPrefix string, target *url.URL) gin.HandlerFunc {
+	proxy := httputil.NewSingleHostReverseProxy(target)
+	proxy.FlushInterval = -1
+
+	return func(c *gin.Context) {
+		if strings.HasPrefix(c.Request.URL.Path, urlPrefix) {
+			c.Request.URL.Path = strings.Replace(c.Request.URL.Path, urlPrefix, "", 1)
+			proxy.ServeHTTP(c.Writer, c.Request)
+		}
+	}
 }
