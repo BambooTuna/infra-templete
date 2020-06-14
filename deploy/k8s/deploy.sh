@@ -7,6 +7,8 @@ else
   export API_SERVER_IMAGE_NAME=$1
 	cat load-balancer-example.tpl.yaml | ./extcat.sh > load-balancer-example.yaml
   kubectl apply -f load-balancer-example.yaml
+
+  helm upgrade --install mysql-service -f ./helm/mysql/mysql-values.yaml stable/mysql
 fi
 
 
