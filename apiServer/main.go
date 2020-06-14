@@ -10,7 +10,7 @@ import (
 	"github.com/BambooTuna/go-server-lib/metrics"
 )
 
-const namespace = "k8s-infra"
+const namespace = "k8s_infra"
 
 func main() {
 	wg := new(sync.WaitGroup)
