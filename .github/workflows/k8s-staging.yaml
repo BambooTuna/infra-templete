@@ -2,7 +2,7 @@ name: k8s-staging
 
 on:
   push:
-    branches: [ feature/k8s-staging ]
+    branches: [ k8s-staging ]
 
 jobs:
   apply-environment:
@@ -36,3 +36,13 @@ jobs:
         working-directory: ./terraform/k8s
         run: |
           sh apply.sh
+
+      - name: Setup Helm
+        run: |
+          gcloud --quiet container clusters get-credentials ${TF_VAR_GOOGLE_PROJECT_ID}-cluster
+          helm init --service-account default
+
+      - name: Init middleware
+        working-directory: ./deploy/k8s
+        run: |
+          sh ./init.sh
