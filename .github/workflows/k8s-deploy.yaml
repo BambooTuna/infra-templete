@@ -2,7 +2,7 @@ name: k8s-deploy
 
 on:
   push:
-    branches: [ feature/k8s ]
+    branches: [ k8s ]
 
 jobs:
   deploy-gce:
@@ -37,18 +37,18 @@ jobs:
       - name: Setup Helm
         run: |
           helm init --service-account default
-      - name: Build
+      - name: Build apiServer
         working-directory: ./apiServer
         run: |
           export IMAGE_NAME=api-server
           export IMAGE_TAG=${GITHUB_SHA}
-          export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
-          docker build . -t ${GCR_IMAGE_NAME}:${IMAGE_TAG}
-          docker push ${GCR_IMAGE_NAME}
+          export API_SERVER_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
+          docker build . -t ${API_SERVER_IMAGE_NAME}
+          docker push ${API_SERVER_IMAGE_NAME}
       - name: Deploy
         working-directory: ./deploy/k8s
         run: |
           export IMAGE_NAME=api-server
           export IMAGE_TAG=${GITHUB_SHA}
-          export GCR_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}
-          sh ./deploy.sh ${GCR_IMAGE_NAME}:${IMAGE_TAG}
+          export API_SERVER_IMAGE_NAME=gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
+          sh ./deploy.sh

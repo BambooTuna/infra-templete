@@ -65,7 +65,7 @@ func main() {
 		r.Use(
 			reverseProxy(
 				"/",
-				&url.URL{Scheme: "http", Host: config.GetEnvString("PROMETHEUS_NAMESPACE", "prometheus-service-server")+":80"},
+				&url.URL{Scheme: "http", Host: config.GetEnvString("PROMETHEUS_NAMESPACE", "prometheus-server")+":80"},
 			),
 		)
 		_ = r.Run(fmt.Sprintf(":%s", serverPort))
@@ -78,7 +78,7 @@ func main() {
 		r.Use(
 			reverseProxy(
 				"/",
-				&url.URL{Scheme: "http", Host: config.GetEnvString("GRAFANA_NAMESPACE", "grafana-service")+":80"},
+				&url.URL{Scheme: "http", Host: config.GetEnvString("GRAFANA_NAMESPACE", "grafana")+":80"},
 			),
 		)
 		_ = r.Run(fmt.Sprintf(":%s", serverPort))
