@@ -3,10 +3,10 @@ FROM nginx:latest
 ENV PROXY_SERVER_HOST "localhost:18080"
 
 # 【ドメイン名 スペース区切りで複数指定可】
-ENV LETSENCRYPT_HOSTS "ssl-sample.work"
+ENV LETSENCRYPT_HOSTS "localhost"
 
 # 【窓口メールアドレス】
-ENV LETSENCRYPT_MAIL "bambootuna@gmail.com"
+ENV LETSENCRYPT_MAIL "example@localhost"
 
 # 【←仮証明書用の記載内容】
 ENV LETSENCRYPT_SUBJECT "/C=JP/ST=Tokyo/L=Shinagawa/CN=default"
