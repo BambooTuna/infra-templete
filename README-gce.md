@@ -34,11 +34,6 @@
   ssh 公開鍵を base64 エンコードした文字列
   `base64 -i my-ssh-key.pub`
 
-- SSH_HOST
-
-  ssh 接続する GCE サーバーの外部 IP
-  terraform でインスタンス作成した後判明する外部 IP
-
 - SSH_PORT
 
   ssh 接続のポート
