@@ -1,18 +1,16 @@
 #!/bin/bash
 
-# ./code-gen-go.sh [proto path] [out file path]
-# ./code-gen-go.sh ./proto ./pb
-
 IMAGE_NAME='grpc-code-gen:latest'
 
 function build () {
   mkdir -p $2
   for file in `\find $1 -name '*.proto'`; do
-      docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "${PWD}:/${PWD}" -w="/${PWD}" protoc-gen-grpc-web \
+      docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "${PWD}:/${PWD}" -w="/${PWD}" ${IMAGE_NAME} \
       protoc \
       -I$1 \
       -I/usr/local/include/google \
-      --go_out=plugins=grpc:$2 \
+      --doc_out=$2 \
+      --doc_opt=html,index.html \
       $file
   done
 }

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# ./code-gen-doc.sh [proto path] [out file path]
-# ./code-gen-doc.sh ./proto ./pb
-
 IMAGE_NAME='grpc-code-gen:latest'
 
 function build () {
@@ -12,8 +9,7 @@ function build () {
       protoc \
       -I$1 \
       -I/usr/local/include/google \
-      --doc_out=$2 \
-      --doc_opt=html,index.html \
+      --swagger_out=logtostderr=true:$2 \
       $file
   done
 }

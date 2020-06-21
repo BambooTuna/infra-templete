@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# ./code-gen-c#.sh [proto path] [out file path]
-# ./code-gen-c#.sh ./proto ./pb
-
 IMAGE_NAME='grpc-code-gen:latest'
 
 function build () {
@@ -12,9 +9,8 @@ function build () {
       protoc \
       -I$1 \
       -I/usr/local/include/google \
-      --plugin=protoc-gen-grpc=/usr/local/bin/grpc_csharp_plugin \
-      --csharp_out=$2 \
-      --grpc_out=$2 \
+      --js_out=import_style=commonjs:$2 \
+      --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:$2 \
       $file
   done
 }
