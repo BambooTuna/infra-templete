@@ -1,21 +1,30 @@
 # nginx-ssl
 
+`nginx-ssl`を挟むことで気軽にSSL化することができます。
+[ Client ] - example.com -> [ DNS ]
+[ DNS ] - localhost:443 -> [ nginx-ssl-server ] - localhost:18080 -> [ Other Server ]
+
+※取得したドメインとサーバーの外部IPの紐付け作業などは省略します
+`DNS Aレコード`などと検索すれば色々出てくると思います
+
 
 ## docker-compose sample
 ```yaml
 version: "3.4"
 services:
-  # https://tech.actindi.net/2018/09/20/093414
   ssl-proxy-server:
     restart: always
     build: nginx-ssl
     environment:
       TZ: Asia/Tokyo
-      PROXY_SERVER_HOST: localhost:18080
-      LETSENCRYPT_HOSTS: localhost
-      LETSENCRYPT_MAIL: example@localhost
+      PROXY_SERVER_HOST: localhost:18080 # SSL化したいサーバーの[ホスト:ポート]
+      LETSENCRYPT_HOSTS: localhost # 取得したドメイン
+      LETSENCRYPT_MAIL: example@localhost # あなたの連絡先メール
       LETSENCRYPT_SUBJECT: "/C=JP/ST=Tokyo/L=Shinagawa/CN=default"
     ports:
       - 80:80
       - 443:443
 ```
+
+## 参考
+https://tech.actindi.net/2018/09/20/093414
