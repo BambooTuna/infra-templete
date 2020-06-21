@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   mysql:
-    build: rdb/mysql
+    build: ../../tools/mysql
     restart: always
     ports:
       - 3306:3306
@@ -13,7 +13,7 @@ services:
 
   api-server:
     restart: always
-    build: ./apiServer
+    build: ../../apiServer
     ports:
       - 18080:18080
     logging:
@@ -27,20 +27,17 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-      - ./tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../../tools/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana
     volumes:
-      - ./tools/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-      - ./tools/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
-      - ./tools/grafana/dashboards:/var/lib/grafana/dashboards
+      - ../../tools/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ../../tools/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ../../tools/grafana/dashboards:/var/lib/grafana/dashboards
     ports:
-      - 8080:3000
+      - 3000:3000
     environment:
-      - GF_SERVER_DOMAIN=grafana
-      - GF_SERVER_HTTP_PORT=3000
-      - GF_SERVER_PROTOCOL=http
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_NAME=View Org.
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
