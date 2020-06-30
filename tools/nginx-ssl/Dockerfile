@@ -19,10 +19,7 @@ RUN apt-get update \
       certbot \
     && rm -rf /var/lib/apt/lists/*
 
-COPY nginx.tpl.conf /etc/nginx/nginx.tpl.conf
-COPY extcat.sh /extcat.sh
+COPY generate.sh /generate.sh
 COPY start.sh /start.sh
 
-RUN chmod +x /extcat.sh && chmod +x /start.sh
-
-CMD cat /etc/nginx/nginx.tpl.conf | /extcat.sh > /etc/nginx/nginx.conf && /start.sh
+CMD bash generate.sh > /etc/nginx/nginx.conf && sh /start.sh
