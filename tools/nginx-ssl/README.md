@@ -19,7 +19,7 @@ services:
     build: nginx-ssl
     environment:
       TZ: Asia/Tokyo
-      PROXY_SERVER_HOST: "http://localhost:8080 http://localhost:18080" # SSL化したいサーバーの[ホスト:ポート]
+      PROXY_SERVER_HOSTS: "https://google.com https://yahoo.co.jp" # SSL化したいサーバーの[ホスト:ポート]
       LETSENCRYPT_HOSTS: "localhost api.localhost" # 取得したドメイン
       LETSENCRYPT_MAIL: example@localhost # あなたの連絡先メール
       LETSENCRYPT_SUBJECT: "/C=JP/ST=Tokyo/L=Shinagawa/CN=default"

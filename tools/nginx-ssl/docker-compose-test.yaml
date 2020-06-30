@@ -5,7 +5,7 @@ services:
     build: .
     environment:
       TZ: Asia/Tokyo
-      PROXY_SERVER_HOSTS: "host.docker.internal:18080 host.docker.internal:18081" # SSL化したいサーバーの[ホスト:ポート] host.docker.internal
+      PROXY_SERVER_HOSTS: "https://www.google.com https://www.yahoo.co.jp" # SSL化したいサーバーの[ホスト:ポート] host.docker.internal
       LETSENCRYPT_HOSTS: "localhost api.localhost" # 取得したドメイン
       LETSENCRYPT_MAIL: example@localhost # あなたの連絡先メール
       LETSENCRYPT_SUBJECT: "/C=JP/ST=Tokyo/L=Shinagawa/CN=default"
