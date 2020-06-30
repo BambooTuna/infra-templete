@@ -74,7 +74,7 @@ cat << 'EOS'
 EOS
 
 cat << EOS
-        proxy_pass http://${hosts[$i]};
+        proxy_pass ${hosts[$i]};
 EOS
 cat << 'EOS'
         proxy_http_version 1.1;
