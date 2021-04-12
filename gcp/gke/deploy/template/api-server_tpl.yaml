@@ -29,7 +29,7 @@ spec:
             - name: MYSQL_PASSWORD
               value: "password"
             - name: MYSQL_HOST
-              value: "34.84.123.231"
+              value: "db-cluster-ip"
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
