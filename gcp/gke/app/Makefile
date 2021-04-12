@@ -5,9 +5,12 @@ help: ## show help
 		printf "\033[36m%-20s\033[0m %s\n", $$1, $$2 \
 	}'
 
+.PHONY: setup
+setup:
+
 .PHONY: build
-build: ## build grpc application
-    go build -o bin/server
+build: ## build application
+	go build -o bin/server
 
 .PHONY: get
 get:
