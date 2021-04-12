@@ -68,6 +68,7 @@ jobs:
         run: |
           gcloud container clusters get-credentials container-cluster --zone ${GOOGLE_COMPUTE_ZONE} --project ${GOOGLE_PROJECT_ID}
           export API_SERVER_IMAGE=asia.gcr.io/${GOOGLE_PROJECT_ID}/server:${GITHUB_SHA::7}
+          export MYSQL_INSTANCE_NAME="mysql"
           cat template/cloudsql-proxy_tpl.yaml | envsubst > cloudsql-proxy.yaml
           cat template/api-server_tpl.yaml | envsubst > api-server.yaml
           kubectl apply -f .
