@@ -18,7 +18,7 @@ spec:
           ports:
             - containerPort: 3306
           command: ["/cloud_sql_proxy", "--dir=/cloudsql",
-                    "-instances=PROJECT_NAME:asia-northeast1:INSTANCE_NAME=tcp:0.0.0.0:3306",
+                    "-instances=${GOOGLE_PROJECT_ID}:${GOOGLE_COMPUTE_REGION}:INSTANCE_NAME=tcp:0.0.0.0:3306",
                     "-credential_file=/secrets/cloudsql/credentials.json"]
           volumeMounts:
             - name: cloudsql-instance-credentials
