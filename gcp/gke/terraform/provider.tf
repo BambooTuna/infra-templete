@@ -6,6 +6,6 @@ terraform {
 }
 
 provider "google" {
-  project     = "k8s-infra-310011"
-  region      = "asia-northeast1"
+  project     = var.project
+  region      = var.region
 }
