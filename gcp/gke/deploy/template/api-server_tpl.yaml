@@ -21,6 +21,17 @@ spec:
       containers:
         - image: ${API_SERVER_IMAGE}
           name: api-server
+          env:
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_HOST
+              value: 34.84.123.231
+            - name: MYSQL_PORT
+              value: 3306
+            - name: MYSQL_DATABASE
+              value: test_database
           ports:
             - containerPort: 8080
           livenessProbe:
