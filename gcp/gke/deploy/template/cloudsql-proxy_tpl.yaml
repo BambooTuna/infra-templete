@@ -1,0 +1,45 @@
+# https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine?hl=ja#private-ip
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - image: gcr.io/cloudsql-docker/gce-proxy:1.17
+          name: cloudsql-proxy
+          ports:
+            - containerPort: 3306
+          command: [
+              "/cloud_sql_proxy", "--dir=/cloudsql",
+              "-instances=${GOOGLE_PROJECT_ID}:${GOOGLE_COMPUTE_REGION}:${MYSQL_INSTANCE_NAME}=tcp:0.0.0.0:3306",
+              "-credential_file=/secrets/cloudsql/credentials.json"
+          ]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-cluster-ip
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: db

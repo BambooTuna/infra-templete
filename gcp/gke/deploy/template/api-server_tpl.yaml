@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: api-server
+  name: api-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: api-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0%
+  template:
+    metadata:
+      labels:
+        run: api-server
+    spec:
+      containers:
+        - image: ${API_SERVER_IMAGE}
+          name: api-server
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MYSQL_USER
+              value: "user"
+            - name: MYSQL_PASSWORD
+              value: "password"
+            - name: MYSQL_HOST
+              value: "db-cluster-ip"
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              value: "test_database"
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-server-backend
+  labels:
+    run: api-server
+spec:
+  type: NodePort
+  selector:
+    run: api-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
